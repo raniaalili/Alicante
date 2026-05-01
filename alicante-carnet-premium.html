@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alicante — Un séjour entre nous</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ivory: #fbf5ea;
+  --paper: #fffdf8;
+  --linen: #f2eadc;
+  --ink: #15120f;
+  --text: #2b251f;
+  --muted: #74685d;
+  --soft: #a19283;
+  --ocean: #183f4d;
+  --ocean-soft: #e8f0f2;
+  --gold: #b98a3d;
+  --terra: #b55a43;
+  --line: rgba(21,18,15,0.10);
+  --line-warm: rgba(185,138,61,0.24);
+  --shadow: 0 18px 42px rgba(21,18,15,0.08);
+  --r-xl: 28px;
+  --r-lg: 18px;
+  --r-md: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ivory);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.68;
+  max-width: 420px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  padding-bottom: 72px;
+}
+
+a {
+  color: inherit;
+}
+
+/* COVER */
+
+.cover {
+  min-height: 100svh;
+  background:
+    linear-gradient(180deg, rgba(255,253,248,0.04), rgba(255,253,248,0)),
+    linear-gradient(145deg, #123540 0%, #183f4d 52%, #224f5c 100%);
+  color: var(--paper);
+  padding: 42px 28px 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cover-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.cover-eyebrow {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,253,248,0.62);
+}
+
+.cover-date {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: rgba(255,253,248,0.48);
+  text-align: right;
+  line-height: 1.5;
+}
+
+.cover-main {
+  padding: 56px 0 34px;
+}
+
+.cover-kicker {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 300;
+  color: rgba(255,253,248,0.72);
+  margin-bottom: 12px;
+}
+
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(64px, 19vw, 82px);
+  font-weight: 300;
+  line-height: 0.88;
+  letter-spacing: -2.6px;
+}
+
+.cover-subtitle {
+  max-width: 295px;
+  margin-top: 28px;
+  font-size: 13px;
+  color: rgba(255,253,248,0.68);
+  line-height: 1.7;
+}
+
+.cover-rule {
+  width: 100%;
+  height: 1px;
+  margin: 36px 0 22px;
+  background: linear-gradient(90deg, rgba(185,138,61,0.70), rgba(255,253,248,0.08));
+}
+
+.cover-hotel-label {
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  color: rgba(185,138,61,0.92);
+  margin-bottom: 12px;
+}
+
+.cover-hotel-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,253,248,0.10);
+}
+
+.cover-hotel-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.cover-hotel-night {
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,253,248,0.48);
+}
+
+/* NAV */
+
+.nav {
+  position: sticky;
+  top: 10px;
+  z-index: 1000;
+  display: flex;
+  gap: 4px;
+  margin: 14px 14px 22px;
+  padding: 6px;
+  border: 1px solid rgba(185,138,61,0.28);
+  border-radius: 999px;
+  background: rgba(251,245,234,0.92);
+  box-shadow: 0 10px 26px rgba(21,18,15,0.08);
+  backdrop-filter: blur(18px);
+}
+
+.nav a {
+  flex: 1;
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ocean);
+}
+
+.nav a:active,
+.nav a:hover {
+  background: var(--ocean);
+  color: var(--paper);
+}
+
+/* SECTIONS */
+
+.card {
+  margin: 0 14px 22px;
+  border-radius: var(--r-xl);
+  background: var(--paper);
+  border: 1px solid var(--line-warm);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.card-pad {
+  padding: 24px 22px;
+}
+
+.eyebrow {
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  color: var(--ocean);
+  margin-bottom: 7px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.4px;
+  color: var(--ink);
+}
+
+/* MAP */
+
+#alicante-map {
+  height: 315px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.map-footer {
+  padding: 15px 16px 16px;
+  display: grid;
+  gap: 9px;
+}
+
+.map-btn-primary,
+.map-btn-secondary {
+  min-height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1.35px;
+  text-transform: uppercase;
+}
+
+.map-btn-primary {
+  background: var(--ocean);
+  color: var(--paper);
+}
+
+.map-btn-secondary {
+  border: 1px solid var(--line);
+  color: var(--ocean);
+  background: transparent;
+}
+
+/* PRACTICAL */
+
+.practical-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.practical-item {
+  background: var(--linen);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 13px;
+}
+
+.practical-label {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 4px;
+}
+
+.practical-value {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+/* DAY */
+
+.day-sep {
+  padding: 25px 22px 13px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.day-sep-line {
+  flex: 1;
+  height: 1px;
+  background: var(--line-warm);
+}
+
+.day-sep-text {
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.day-block {
+  margin: 0 14px 22px;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 1px solid var(--line-warm);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.day-header {
+  padding: 26px 22px 22px;
+  background: var(--paper);
+}
+
+.day-label {
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  color: var(--ocean);
+  margin-bottom: 13px;
+}
+
+.day-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 33px;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.6px;
+  color: var(--ink);
+  margin-bottom: 9px;
+}
+
+.day-vibe {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--muted);
+}
+
+.day-pill {
+  display: inline-flex;
+  margin-top: 17px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: var(--ocean);
+  color: var(--paper);
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.narrative {
+  padding: 21px 22px;
+  background: var(--linen);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.62;
+  color: var(--ocean);
+}
+
+.timeline {
+  padding: 8px 18px 16px;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 13px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.step:last-child {
+  border-bottom: none;
+}
+
+.step-time {
+  height: fit-content;
+  text-align: center;
+  padding: 4px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--line-warm);
+  color: var(--gold);
+  background: #fbf2df;
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.step-place {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.18;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+
+.step-desc {
+  font-size: 12.8px;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.step-desc strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.step-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.tag {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 7.8px;
+  font-weight: 500;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: var(--linen);
+  color: var(--muted);
+}
+
+.tag-eat {
+  color: var(--gold);
+  background: #fbf2df;
+}
+
+.tag-walk {
+  color: var(--ocean);
+  background: var(--ocean-soft);
+}
+
+.tag-sleep {
+  color: var(--paper);
+  background: var(--ocean);
+}
+
+.step-map-btn {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ocean);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.day-note {
+  padding: 20px 22px;
+  border-top: 1px solid var(--line);
+}
+
+.note-label {
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.note-text {
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+.moment {
+  background: var(--ocean-soft);
+}
+
+.moment .note-label {
+  color: var(--ocean);
+}
+
+.moment .note-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--ocean);
+}
+
+.mission {
+  background: #fff6ed;
+}
+
+.mission .note-label {
+  color: var(--terra);
+}
+
+.rain {
+  background: #fbf2df;
+}
+
+.rain .note-label {
+  color: var(--gold);
+}
+
+.hotel-card {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  padding: 19px 22px 22px;
+}
+
+.hotel-label {
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 7px;
+}
+
+.hotel-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  color: var(--ink);
+}
+
+.hotel-detail {
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* RECAP + BUDGET */
+
+.recap-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+}
+
+.recap-table th {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+
+.recap-table td {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.recap-table tr:last-child td {
+  border-bottom: none;
+}
+
+.col-j {
+  width: 28px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ocean);
+}
+
+.col-hotel {
+  padding-right: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.col-zone {
+  text-align: right;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.progress-list {
+  margin-top: 18px;
+}
+
+.progress-item {
+  display: flex;
+  gap: 13px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.progress-item:last-child {
+  border-bottom: none;
+}
+
+.progress-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.progress-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ocean);
+  margin-bottom: 2px;
+}
+
+.progress-text {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.budget-items {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.budget-item,
+.budget-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+}
+
+.budget-item {
+  background: var(--linen);
+  border: 1px solid var(--line);
+}
+
+.budget-item-label {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.budget-item-value {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.budget-total {
+  background: var(--ocean);
+  color: var(--paper);
+}
+
+.budget-total-label {
+  font-size: 13px;
+}
+
+.budget-total-value {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* FOOTER */
+
+.footer {
+  margin: 0 14px;
+  padding: 50px 28px;
+  border-radius: var(--r-xl);
+  background: linear-gradient(145deg, #9f4738, #bd654c);
+  color: var(--paper);
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.footer-icons {
+  font-size: 21px;
+  letter-spacing: 6px;
+  margin-bottom: 18px;
+}
+
+.footer-title,
+.footer-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.footer-title {
+  font-size: 23px;
+  line-height: 1.35;
+  margin-bottom: 15px;
+}
+
+.footer-quote {
+  font-size: 18px;
+  line-height: 1.58;
+  color: rgba(255,253,248,0.84);
+}
+
+.footer-meta {
+  margin-top: 24px;
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 2.3px;
+  text-transform: uppercase;
+  color: rgba(255,253,248,0.45);
+}
+
+/* LEAFLET */
+
+.leaflet-container {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 0 10px 26px rgba(21,18,15,0.16);
+}
+
+.leaflet-popup-content {
+  margin: 11px 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+}
+
+.leaflet-popup-tip {
+  background: var(--paper);
+}
+
+.leaflet-control-zoom a {
+  color: var(--ocean);
+}
+
+@media (max-width: 380px) {
+  body {
+    font-size: 13px;
+  }
+
+  .cover {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .day-title {
+    font-size: 30px;
+  }
+
+  .step {
+    grid-template-columns: 50px 1fr;
+    gap: 11px;
+  }
+
+  .practical-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<section class="cover">
+  <div class="cover-top">
+    <div class="cover-eyebrow">Un séjour entre sœurs</div>
+    <div class="cover-date">9 — 12 mai 2026<br>4 jours</div>
+  </div>
+
+  <div class="cover-main">
+    <div class="cover-kicker">Carnet méditerranéen</div>
+    <h1 class="cover-title">Alicante</h1>
+    <p class="cover-subtitle">Un voyage solaire, doux et élégant. Quatre jours pour marcher, rire, ralentir, manger des glaces et fabriquer un vrai souvenir de grande sœur.</p>
+
+    <div class="cover-rule"></div>
+
+    <div class="cover-hotel-label">Base du séjour</div>
+    <div class="cover-hotel-row">
+      <span class="cover-hotel-name">Hotel Areca</span>
+      <span class="cover-hotel-night">4 nuits</span>
+    </div>
+  </div>
+</section>
+
+<nav class="nav">
+  <a href="#carte">Carte</a>
+  <a href="#j1">J1</a>
+  <a href="#j2">J2</a>
+  <a href="#j3">J3</a>
+  <a href="#j4">J4</a>
+  <a href="#budget">Budget</a>
+</nav>
+
+<section id="carte" class="card">
+  <div class="card-pad">
+    <div class="eyebrow">Carte de l’itinéraire</div>
+    <h2 class="section-title">Vue d’ensemble</h2>
+  </div>
+  <div id="alicante-map"></div>
+  <div class="map-footer">
+    <a class="map-btn-primary" href="https://www.google.com/maps/dir/?api=1&origin=Hotel%20Areca%20Alicante&destination=Alicante%20Airport&waypoints=Explanada%20de%20Espana%20Alicante%7CBarrio%20Santa%20Cruz%20Alicante%7CCastillo%20de%20Santa%20Barbara%20Alicante%7CPlaya%20del%20Postiguet%20Alicante%7CHoly%20Madre%20Alicante%7CLivanti%20Gelato%20Alicante%7CPlaya%20de%20San%20Juan%20Alicante%7CPlaza%20del%20Ayuntamiento%20Alicante&travelmode=transit" target="_blank" rel="noopener">Ouvrir l’itinéraire complet sur Google Maps</a>
+    <a class="map-btn-secondary" href="https://maps.apple.com/?q=Alicante%20Spain" target="_blank" rel="noopener">Ouvrir dans Plans Apple</a>
+  </div>
+</section>
+
+<section class="card">
+  <div class="card-pad">
+    <div class="eyebrow">Infos pratiques</div>
+    <h2 class="section-title">À garder en tête</h2>
+
+    <div class="practical-grid">
+      <div class="practical-item">
+        <div class="practical-label">Arrivée</div>
+        <div class="practical-value">Taxi hôtel ~15–18€ · 20 min</div>
+      </div>
+      <div class="practical-item">
+        <div class="practical-label">Centre-ville</div>
+        <div class="practical-value">Bus C-6 · &lt;2€ · 20 min</div>
+      </div>
+      <div class="practical-item">
+        <div class="practical-label">Grande plage</div>
+        <div class="practical-value">Tram L1 · 1,45€ · 25 min</div>
+      </div>
+      <div class="practical-item">
+        <div class="practical-label">En ville</div>
+        <div class="practical-value">Tout à pied une fois au centre</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="day-sep"><div class="day-sep-line"></div><div class="day-sep-text">Samedi 9 mai</div><div class="day-sep-line"></div></div>
+
+<section id="j1" class="day-block">
+  <div class="day-header">
+    <div class="day-label">Jour 1 · Samedi 9 mai</div>
+    <h2 class="day-title">Le jour où tout commence</h2>
+    <div class="day-vibe">Bienvenue dans la lumière</div>
+    <span class="day-pill">Arrivée → vieille ville</span>
+  </div>
+
+  <div class="narrative">
+    Atterrissage à 9h50. Dehors, le soleil de mai en Espagne a déjà quelque chose de sérieux : pas écrasant, juste présent. Vous prenez le temps qu’il faut à l’hôtel. Puis vous repartez quand vous êtes prêtes, sans vous presser.
+  </div>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="step-time">9h50</div>
+      <div>
+        <div class="step-place">Atterrissage</div>
+        <div class="step-desc">Aéroport d’Alicante-Elche. Bagages, sortie, première lumière espagnole.</div>
+        <div class="step-tags"><span class="tag">Taxi vers hôtel ~15–18€</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~11h30</div>
+      <div>
+        <div class="step-place">Départ vers le centre</div>
+        <div class="step-desc">Bus C-6 depuis l’aéroport, arrêt Puerta del Mar. Prenez le temps qu’il faut à l’hôtel avant.</div>
+        <div class="step-tags"><span class="tag">20 min · &lt;2€</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~12h</div>
+      <div>
+        <div class="step-place">Explanada de España</div>
+        <div class="step-desc">Le boulevard longe le port, pavé de mosaïques en vagues noires et terracotta. Ta petite sœur va regarder ses pieds et réaliser que le sol est une œuvre d’art.</div>
+        <div class="step-tags"><span class="tag tag-walk">Balade libre</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Explanada%20de%20Espana%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~13h30</div>
+      <div>
+        <div class="step-place">Déjeuner · El Buen Comer</div>
+        <div class="step-desc"><strong>Carrer Major, 8.</strong> Tapas et menu du jour autour de 12–15€ par personne. Terrasse agréable. Ils servent jusqu’à 16h si vous arrivez un peu tard.</div>
+        <div class="step-tags"><span class="tag tag-eat">Déjeuner</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=El%20Buen%20Comer%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~15h30</div>
+      <div>
+        <div class="step-place">Barrio Santa Cruz</div>
+        <div class="step-desc">Les rues rétrécissent, les maisons blanchissent, les géraniums rouges débordent. Des chats dorment sur les marches. Vous allez sûrement vous perdre dans une ruelle qui ne mène nulle part.</div>
+        <div class="step-tags"><span class="tag tag-walk">10 min à pied · montée douce</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Barrio%20Santa%20Cruz%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~16h</div>
+      <div>
+        <div class="step-place">Castillo de Santa Bárbara</div>
+        <div class="step-desc">La montée depuis le quartier se fait naturellement. Ascenseur à 2,70€ : un tunnel creusé dans la roche. En haut, la vue embrasse toute la baie. <strong>Gratuit. Ouvert jusqu’à 20h.</strong></div>
+        <div class="step-tags"><span class="tag tag-walk">Ascenseur 2,70€/pers.</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Castillo%20Santa%20Barbara%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~18h30</div>
+      <div>
+        <div class="step-place">Playa del Postiguet</div>
+        <div class="step-desc">5 minutes à pied du château. La plage du centre-ville, avec le château en arrière-plan. Coucher de soleil depuis le sable.</div>
+        <div class="step-tags"><span class="tag tag-walk">5 min à pied</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Playa%20del%20Postiguet%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~19h30</div>
+      <div>
+        <div class="step-place">Première glace · Livanti Gelato</div>
+        <div class="step-desc"><strong>Carrer de Muñoz, 6.</strong> Considéré parmi les meilleurs gelatos d’Espagne. Sur le chemin du retour, vous ne pourrez pas passer devant sans vous arrêter.</div>
+        <div class="step-tags"><span class="tag tag-eat">Gelato artisanal</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Livanti%20Gelato%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~21h</div>
+      <div>
+        <div class="step-place">Dîner léger</div>
+        <div class="step-desc">Café ou pizzeria dans la vieille ville. Retour à l’hôtel.</div>
+        <div class="step-tags"><span class="tag tag-eat">Dîner</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-note moment">
+    <div class="note-label">Moment fort</div>
+    <div class="note-text">Les ruelles fleuries de Santa Cruz en fin d’après-midi, puis la vue dorée depuis le château. Une légère fatigue dans les jambes qui dit : <em>on a bien commencé.</em></div>
+  </div>
+
+  <div class="day-note mission">
+    <div class="note-label">Mission</div>
+    <div class="note-text">Trouver la plus belle porte colorée du Barrio Santa Cruz. Se photographier toutes les deux devant — même pose, même angle. Elle choisit la porte.</div>
+  </div>
+
+  <div class="day-note rain">
+    <div class="note-label">Option pluie / fatigue</div>
+    <div class="note-text">L’Explanada et une glace, c’est déjà un beau premier soir. Le château ouvre à 10h demain.</div>
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-label">Nuit 1</div>
+    <div class="hotel-name">Hotel Areca</div>
+    <div class="hotel-detail">Près de l’aéroport · Bus C-6 vers le centre le lendemain</div>
+  </div>
+</section>
+
+<div class="day-sep"><div class="day-sep-line"></div><div class="day-sep-text">Dimanche 10 mai</div><div class="day-sep-line"></div></div>
+
+<section id="j2" class="day-block">
+  <div class="day-header">
+    <div class="day-label">Jour 2 · Dimanche 10 mai</div>
+    <h2 class="day-title">La journée où le temps s’étire</h2>
+    <div class="day-vibe">Sable chaud, rien à faire — c’est parfait</div>
+    <span class="day-pill">Port → plage du Postiguet</span>
+  </div>
+
+  <div class="narrative">
+    Pas de réveil ce matin. Café et quelque chose de sucré en terrasse. C’est dimanche, l’Espagne se réveille tard : laissez-vous contaminer par ce rythme. La journée est faite pour être douce.
+  </div>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="step-time">Matin</div>
+      <div>
+        <div class="step-place">Petit-déjeuner en terrasse</div>
+        <div class="step-desc">Café et viennoiserie dans un bar de la vieille ville. Pas de programme avant 10h.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~10h30</div>
+      <div>
+        <div class="step-place">Balade autour du port</div>
+        <div class="step-desc">La marina et ses bateaux qui brillent. Asseyez-vous quelque part sans que ce soit prévu. L’Espagne du dimanche matin est douce, et elle mérite qu’on la regarde.</div>
+        <div class="step-tags"><span class="tag tag-walk">Balade libre</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Puerto%20de%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~13h</div>
+      <div>
+        <div class="step-place">Déjeuner au bord de l’eau</div>
+        <div class="step-desc">Chiringuito ou terrasse face au Postiguet. Menu à 12–15€ avec vue sur la mer.</div>
+        <div class="step-tags"><span class="tag tag-eat">Déjeuner</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~14h30</div>
+      <div>
+        <div class="step-place">Playa del Postiguet</div>
+        <div class="step-desc">Sable clair, eau à 18–20°C en mai. Derrière vous, le château domine tout le tableau. Installez-vous. Ne bougez pas trop. Laissez passer deux ou trois heures.</div>
+        <div class="step-tags"><span class="tag tag-walk">5 min à pied du centre</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Playa%20del%20Postiguet%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~18h</div>
+      <div>
+        <div class="step-place">Goûter · Holy Madre</div>
+        <div class="step-desc"><strong>Calle San Francisco, 58.</strong> Une heladería argentine à deux pas de l’Explanada. Parfums inattendus, déco chaleureuse, halte parfaite de fin d’après-midi.</div>
+        <div class="step-tags"><span class="tag tag-eat">Glaces argentines</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Holy%20Madre%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~20h</div>
+      <div>
+        <div class="step-place">Dîner de tapas</div>
+        <div class="step-desc">Bar de la rue Mayor : croquetas, jambon, fromage. Terrasse espagnole, dimanche soir. Rentrez peut-être par un chemin différent.</div>
+        <div class="step-tags"><span class="tag tag-eat">Dîner</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-note moment">
+    <div class="note-label">Moment fort</div>
+    <div class="note-text">Du sel sur la peau et cette impression rare d’avoir vraiment décroché — toutes les deux.</div>
+  </div>
+
+  <div class="day-note mission">
+    <div class="note-label">Mission</div>
+    <div class="note-text">Apprendre à dire trois choses en espagnol avant la fin de la journée. <em>Una bola de helado, por favor</em> compte comme acquis. Ta petite sœur choisit les deux autres.</div>
+  </div>
+
+  <div class="day-note rain">
+    <div class="note-label">Option pluie / fatigue</div>
+    <div class="note-text">Shopping tranquille Calle Mayor, chocolat chaud dans un café, ou le MACA — le musée d’art contemporain, lumineux et photogénique.</div>
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-label">Nuit 2</div>
+    <div class="hotel-name">Hotel Areca</div>
+    <div class="hotel-detail">Bus C-6 retour depuis le centre · &lt;2€</div>
+  </div>
+</section>
+
+<div class="day-sep"><div class="day-sep-line"></div><div class="day-sep-text">Lundi 11 mai</div><div class="day-sep-line"></div></div>
+
+<section id="j3" class="day-block">
+  <div class="day-header">
+    <div class="day-label">Jour 3 · Lundi 11 mai</div>
+    <h2 class="day-title">La journée reine</h2>
+    <div class="day-vibe">Grand large, palmiers, liberté</div>
+    <span class="day-pill">Playa de San Juan</span>
+  </div>
+
+  <div class="narrative">
+    Aujourd’hui, vous allez à la vraie grande plage. Le tram L1 part de la station Luceros. À peine 1,45€ chacune, et en vingt-cinq minutes vous débarquez dans un autre monde.
+  </div>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="step-time">~10h</div>
+      <div>
+        <div class="step-place">Départ en tram</div>
+        <div class="step-desc">Station Luceros, ligne L1. Direction Playa de San Juan.</div>
+        <div class="step-tags"><span class="tag">Tram L1 · 1,45€ · 25 min</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Playa%20de%20San%20Juan%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~10h30</div>
+      <div>
+        <div class="step-place">Playa de San Juan</div>
+        <div class="step-desc">Immense, large, bordée de palmiers, avec des cabanes de sauveteurs rouge et jaune. L’eau est transparente. Installez-vous, baignez-vous, inventez un jeu de photos.</div>
+        <div class="step-tags"><span class="tag tag-walk">Journée plage</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~13h</div>
+      <div>
+        <div class="step-place">Déjeuner au chiringuito</div>
+        <div class="step-desc">Menu à 12–15€, face à la mer. Ce repas-là, c’est l’endroit où on mange en regardant la mer et où le temps passe différemment.</div>
+        <div class="step-tags"><span class="tag tag-eat">Déjeuner</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~18h</div>
+      <div>
+        <div class="step-place">Retour en tram</div>
+        <div class="step-desc">Ou un peu plus tard, si personne n’a envie de bouger.</div>
+        <div class="step-tags"><span class="tag">Tram L1 retour</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~19h30</div>
+      <div>
+        <div class="step-place">Dernier vrai dîner · Plaza del Ayuntamiento</div>
+        <div class="step-desc">Terrasse sur la place de la mairie baroque, illuminée le soir. Fond de photo absolument déraisonnable. Sur le retour, si vous passez devant <strong>Livanti</strong>, vous saurez quoi faire.</div>
+        <div class="step-tags"><span class="tag tag-eat">Dîner</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Plaza%20del%20Ayuntamiento%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-note moment">
+    <div class="note-label">Moment fort</div>
+    <div class="note-text">Les épaules légèrement roses, du sable dans les chaussures, et cette envie tranquille de rester encore un peu.</div>
+  </div>
+
+  <div class="day-note mission">
+    <div class="note-label">Mission</div>
+    <div class="note-text">Écrire un message dans le sable juste avant de partir. Le photographier avant la vague. Ce n’est pas grave si elle efface tout — c’est même un peu le but.</div>
+  </div>
+
+  <div class="day-note rain">
+    <div class="note-label">Option pluie / fatigue</div>
+    <div class="note-text">Hammam ou spa en centre-ville, autour de 25–30€. Chaud, coloré, silencieux. Exactement l’ambiance qu’il faut pour une journée cocooning entre sœurs.</div>
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-label">Nuit 3</div>
+    <div class="hotel-name">Hotel Areca</div>
+    <div class="hotel-detail">Bus C-6 depuis le centre · Dernière nuit</div>
+  </div>
+</section>
+
+<div class="day-sep"><div class="day-sep-line"></div><div class="day-sep-text">Mardi 12 mai</div><div class="day-sep-line"></div></div>
+
+<section id="j4" class="day-block">
+  <div class="day-header">
+    <div class="day-label">Jour 4 · Mardi 12 mai</div>
+    <h2 class="day-title">Le dernier matin</h2>
+    <div class="day-vibe">Lenteur, douceur, et le goût de rester</div>
+    <span class="day-pill">Vol 21h20</span>
+  </div>
+
+  <div class="narrative">
+    Vol à 21h20. Vous avez la journée : ne la gâchez pas en stressant pour les bagages. Ce matin, sans l’urgence d’aller quelque part, vous allez peut-être voir la ville autrement.
+  </div>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="step-time">Matin</div>
+      <div>
+        <div class="step-place">Petit-déjeuner doux</div>
+        <div class="step-desc">À l’hôtel ou dans un café du centre. Pas de réveil imposé.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~10h</div>
+      <div>
+        <div class="step-place">Dernière balade · Explanada</div>
+        <div class="step-desc">Les mosaïques sous le soleil du matin, les pigeons, la mer calme derrière. Même ville. Mais vous la connaissez, maintenant.</div>
+        <div class="step-tags"><span class="tag tag-walk">Balade libre</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Explanada%20de%20Espana%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~11h</div>
+      <div>
+        <div class="step-place">Souvenirs · Turrón d’Alicante</div>
+        <div class="step-desc">Le nougat aux amandes local, dans une épicerie du centre, pour presque rien. Ta petite sœur choisit les parfums.</div>
+        <div class="step-tags"><span class="tag tag-walk">Shopping doux</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~13h30</div>
+      <div>
+        <div class="step-place">Dernier repas espagnol</div>
+        <div class="step-desc">Menú del día dans un bar de quartier : entre 10 et 14€. Salade, plat du jour, dessert, boisson. Simple, copieux, honnête.</div>
+        <div class="step-tags"><span class="tag tag-eat">Déjeuner · Menú del día</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~15h30</div>
+      <div>
+        <div class="step-place">Retour à l’hôtel · Bagages</div>
+        <div class="step-desc">Récupérer les valises. Dernières photos.</div>
+        <div class="step-tags"><span class="tag tag-sleep">Hotel Areca</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Hotel%20Areca%20Alicante" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">~19h</div>
+      <div>
+        <div class="step-place">Taxi vers l’aéroport</div>
+        <div class="step-desc">~15–18€. Dans la salle d’attente, faites défiler les photos ensemble. Choisissez <em>la</em> photo du voyage — une seule.</div>
+        <div class="step-tags"><span class="tag">Taxi · 20 min</span></div>
+        <a class="step-map-btn" href="https://www.google.com/maps/search/?api=1&query=Alicante%20Airport" target="_blank" rel="noopener">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-time">21h20</div>
+      <div>
+        <div class="step-place">Envol ✈</div>
+        <div class="step-desc">La fatigue heureuse de celles qui ont bien utilisé leurs quatre jours.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-note moment">
+    <div class="note-label">Moment fort</div>
+    <div class="note-text">La fatigue heureuse et ce sentiment tranquille que vous avez toutes les deux grandi un peu — chacune à votre façon.</div>
+  </div>
+
+  <div class="day-note mission">
+    <div class="note-label">Mission finale</div>
+    <div class="note-text">Dans ses notes, ta petite sœur écrit son moment préféré du séjour. Elle n’est pas obligée de te le montrer. Mais dans dix ans, elle sera contente de l’avoir écrit.</div>
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-label">Vol retour</div>
+    <div class="hotel-name">Alicante → Maison</div>
+    <div class="hotel-detail">Départ 21h20 · Arriver à l’aéroport vers 19h00</div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="card-pad">
+    <div class="eyebrow">Vue d’ensemble</div>
+    <h2 class="section-title">Récapitulatif</h2>
+
+    <table class="recap-table">
+      <thead>
+        <tr><th>J</th><th>Étape</th><th>Thème</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="col-j">J1</td><td class="col-hotel">Arrivée & vieille ville</td><td class="col-zone">Santa Cruz · Château</td></tr>
+        <tr><td class="col-j">J2</td><td class="col-hotel">Vie locale & plage</td><td class="col-zone">Port · Postiguet</td></tr>
+        <tr><td class="col-j">J3</td><td class="col-hotel">Grande plage</td><td class="col-zone">San Juan en tram</td></tr>
+        <tr><td class="col-j">J4</td><td class="col-hotel">Dernier matin</td><td class="col-zone">Envol 21h20</td></tr>
+      </tbody>
+    </table>
+
+    <div class="progress-list">
+      <div class="progress-item"><div class="progress-dot"></div><div><div class="progress-label">Jour 1</div><div class="progress-text">Première impression. Lumière de la ville et ruelles fleuries.</div></div></div>
+      <div class="progress-item"><div class="progress-dot"></div><div><div class="progress-label">Jour 2</div><div class="progress-text">Rythme espagnol. La plage du centre, sans rien prévoir.</div></div></div>
+      <div class="progress-item"><div class="progress-dot"></div><div><div class="progress-label">Jour 3</div><div class="progress-text">Journée reine. Grand large et liberté absolue.</div></div></div>
+      <div class="progress-item"><div class="progress-dot"></div><div><div class="progress-label">Jour 4</div><div class="progress-text">Douceur et lenteur. La ville vue pour la dernière fois.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="budget" class="card">
+  <div class="card-pad">
+    <div class="eyebrow">Finances</div>
+    <h2 class="section-title">Budget indicatif</h2>
+
+    <div class="budget-items">
+      <div class="budget-item"><span class="budget-item-label">Transports bus, tram, taxis</span><span class="budget-item-value">30–40€</span></div>
+      <div class="budget-item"><span class="budget-item-label">Repas menus, tapas</span><span class="budget-item-value">60–80€</span></div>
+      <div class="budget-item"><span class="budget-item-label">Glaces & goûters</span><span class="budget-item-value">15–20€</span></div>
+      <div class="budget-item"><span class="budget-item-label">Château, ascenseur</span><span class="budget-item-value">~5€</span></div>
+      <div class="budget-item"><span class="budget-item-label">Souvenirs</span><span class="budget-item-value">selon envie</span></div>
+      <div class="budget-total"><span class="budget-total-label">Total estimé / personne</span><span class="budget-total-value">110–145€</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-icons">🌊 ☀️ 🍦</div>
+  <div class="footer-title">Ce n’est pas Alicante que vous allez garder.</div>
+  <div class="footer-quote">C’est la façon dont elle regardait les ruelles avec les yeux grands ouverts. Les glaces sur l’Explanada, sans se presser, sans nulle part où aller.<br><br>C’est ça, un souvenir de grande sœur.</div>
+  <div class="footer-meta">Alicante · 9–12 mai 2026 · Itinéraire finalisé</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+(function() {
+  var stops = [
+    { n: "1", name: "Hotel Areca", coords: [38.294094, -0.584923], col: "#b55a43", note: "Votre base, près de l’aéroport" },
+    { n: "2", name: "Explanada de España", coords: [38.343400, -0.483200], col: "#183f4d", note: "Mosaïques emblématiques, J1 et J4" },
+    { n: "3", name: "Barrio Santa Cruz", coords: [38.347900, -0.482600], col: "#183f4d", note: "Ruelles fleuries, J1" },
+    { n: "4", name: "Castillo de Santa Bárbara", coords: [38.349000, -0.478000], col: "#183f4d", note: "Vue panoramique, J1" },
+    { n: "5", name: "Playa del Postiguet", coords: [38.347100, -0.475500], col: "#2f6675", note: "Plage du centre, J1 et J2" },
+    { n: "6", name: "Holy Madre", coords: [38.343700, -0.486900], col: "#b98a3d", note: "Glaces argentines, J2" },
+    { n: "7", name: "Livanti Gelato", coords: [38.345100, -0.482700], col: "#b98a3d", note: "Gelato artisanal, J1 et J3" },
+    { n: "8", name: "Playa de San Juan", coords: [38.374800, -0.409300], col: "#2f6675", note: "Grande plage, J3" },
+    { n: "9", name: "Plaza del Ayuntamiento", coords: [38.345400, -0.482000], col: "#183f4d", note: "Dîner du dernier vrai soir, J3" },
+    { n: "10", name: "Aéroport / retour hôtel", coords: [38.282200, -0.558200], col: "#b55a43", note: "Retour, J4" }
+  ];
+
+  var map = L.map("alicante-map", {
+    scrollWheelZoom: false,
+    dragging: true,
+    tap: true,
+    zoomControl: true
+  });
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18,
+    attribution: "&copy; OpenStreetMap"
+  }).addTo(map);
+
+  var routeCoords = stops.map(function(stop) {
+    return stop.coords;
+  });
+
+  L.polyline(routeCoords, {
+    color: "#183f4d",
+    weight: 3,
+    opacity: 0.48,
+    dashArray: "7 8",
+    lineJoin: "round"
+  }).addTo(map);
+
+  stops.forEach(function(stop) {
+    var icon = L.divIcon({
+      className: "custom-marker",
+      html: '<div style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:' + stop.col + ';color:#fffdf8;border:2px solid #fffdf8;box-shadow:0 5px 14px rgba(21,18,15,0.24);font-size:10px;font-weight:600;font-family:DM Sans,sans-serif;">' + stop.n + '</div>',
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+      popupAnchor: [0, -16]
+    });
+
+    var query = encodeURIComponent(stop.name + " Alicante");
+    var popup = '<strong style="font-size:12px;">' + stop.n + '. ' + stop.name + '</strong><br><span style="font-size:11px;color:#74685d;">' + stop.note + '</span><br><a href="https://www.google.com/maps/search/?api=1&query=' + query + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:7px;color:#183f4d;text-decoration:none;font-size:10px;font-weight:600;">Ouvrir sur Google Maps</a>';
+
+    L.marker(stop.coords, { icon: icon })
+      .addTo(map)
+      .bindPopup(popup);
+  });
+
+  var bounds = L.latLngBounds(routeCoords);
+  map.fitBounds(bounds, { padding: [24, 24], maxZoom: 12 });
+})();
+</script>
+
+</body>
+</html>
