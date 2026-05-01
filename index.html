@@ -570,7 +570,35 @@ a {
 }
 
 /* RECAP + BUDGET */
+.checklist {
+  display: grid;
+  gap: 9px;
+  margin-top: 18px;
+}
 
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 44px;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: var(--linen);
+  border: 1px solid var(--line);
+  font-size: 12.8px;
+  color: var(--text);
+}
+
+.check-item input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ocean);
+  flex-shrink: 0;
+}
+
+.check-item span {
+  line-height: 1.45;
+}
 .recap-table {
   width: 100%;
   border-collapse: collapse;
@@ -748,7 +776,19 @@ a {
   text-transform: uppercase;
   color: rgba(255,253,248,0.45);
 }
+.nav {
 
+  overflow-x: auto;
+
+  scrollbar-width: none;
+
+}
+
+.nav::-webkit-scrollbar {
+
+  display: none;
+
+}
 /* LEAFLET */
 
 .leaflet-container {
@@ -824,14 +864,23 @@ a {
   </div>
 </section>
 
-<nav class="nav">
+<div class="nav">
+
   <a href="#carte">Carte</a>
+
   <a href="#j1">J1</a>
+
   <a href="#j2">J2</a>
+
   <a href="#j3">J3</a>
+
   <a href="#j4">J4</a>
-  <a href="#budget">Budget</a>
-</nav>
+
+  <a href="#checklist">✓</a>
+
+  <a href="#budget">€</a>
+
+</div>
 
 <section id="carte" class="card">
   <div class="card-pad">
@@ -1296,7 +1345,54 @@ a {
     </div>
   </div>
 </section>
+<section id="checklist" class="card checklist-section">
+  <div class="card-pad">
+    <div class="eyebrow">Avant de partir</div>
+    <h2 class="section-title">Check-list</h2>
 
+    <div class="checklist">
+      <label class="check-item">
+        <input type="checkbox">
+        <span>Carte d’identité / passeport</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox">
+        <span>Billets d’avion + réservation Hotel Areca</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox">
+        <span>Chargeur + batterie externe</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox">
+        <span>Maillot de bain + serviette légère</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox">
+        <span>Lunettes de soleil + crème solaire</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox">
+        <span>Tenue légère pour la journée reine à San Juan</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox">
+        <span>Petite veste pour le soir</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox">
+        <span>Notes ouvertes pour écrire le moment préféré du séjour</span>
+      </label>
+    </div>
+  </div>
+</section>
 <section id="budget" class="card">
   <div class="card-pad">
     <div class="eyebrow">Finances</div>
